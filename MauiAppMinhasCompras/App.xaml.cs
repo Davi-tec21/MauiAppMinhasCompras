@@ -2,18 +2,23 @@
 
 namespace MauiAppMinhasCompras
 {
+
+
+    // Variável e propriedade usadas para acessar o banco SQLite,
+    // garante uma única conexão para todo o aplicativo
     public partial class App : Application
     {
     static SQLiteDatabaseHelper _db;
-
-    public static SQLiteDatabaseHelper Db
+        public static SQLiteDatabaseHelper Db
    {
      get
      {
       if (_db == null)
      {
 
-//O código cria o caminho onde o banco
+
+
+//cria o caminho onde o banco
 //SQLite será armazenado no dispositivo usando Path.
 //Combine e Environment.GetFolderPath.
 //Depois disso, ele cria uma instância da classe SQLiteDatabaseHelper, 
@@ -36,10 +41,13 @@ _db = new SQLiteDatabaseHelper("...db3");
 public App()
  {
 InitializeComponent();
+  //MainPage = new AppShell();
 
-//MainPage = new AppShell();
- MainPage = new NavigationPage(new Views.ListaProduto());
+ //definição da tela inicial
+ //permite navegar entre as telas do aplicativo
+MainPage = new NavigationPage(new Views.ListaProduto());       
 
+          
         }
     }
 }
