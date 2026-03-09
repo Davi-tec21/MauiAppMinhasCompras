@@ -1,4 +1,7 @@
-﻿using MauiAppMinhasCompras.Models;
+﻿//Criação da Classe que faz o controle do crud
+
+//Importando as bibliotecas
+using MauiAppMinhasCompras.Models;
 using SQLite;
 
 namespace MauiAppMinhasCompras.Helpers
