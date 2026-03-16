@@ -2,24 +2,66 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiAppMinhasCompras.Views.ListaProduto"
-             Title="ListaProduto">
+             Title="Minhas Compras">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Somar" />
+        <ToolbarItem Text="Somar" Clicked="ToolbarItem_Clicked_1" />
         <ToolbarItem Text="Adicionar" Clicked="ToolbarItem_Clicked"/>
-
-
-
-
     </ContentPage.ToolbarItems>
-    
-    
-    
-    
+
+
+
+    <!-- Layout principal -->
     <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+
+        <!-- Campo de busca para digitar o produto -->
+        <SearchBar x:Name="txt_search" 
+               Placeholder="Busca de Produtos"
+               TextChanged="txt_search_TextChanged"/>
+
+        <!-- Lista que mostra os produtos cadastrados -->
+        <ListView x:Name="lst_produtos">
+
+            <!-- Cabeçalho  -->
+            <ListView.Header>
+                <Grid ColumnDefinitions="*, *, *, *, *, *">
+
+                    <!-- Títulos das colunas -->
+                    <Label Grid.Column="0" Text="ID"/>
+                    <Label Grid.Column="1" Text="Descrição"/>
+                    <Label Grid.Column="2" Text="Preço"/>
+                    <Label Grid.Column="3" Text="Quantidade"/>
+                    <Label Grid.Column="4" Text="Total"/>
+
+                </Grid>
+            </ListView.Header>
+
+            <!-- Define como cada item da lista será exibido -->
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+
+                        <!-- Menu que aparece ao deslizar o item -->
+                        <ViewCell.ContextActions>
+                            <MenuItem Text="Remover" Clicked="MenuItem_Clicked"/>
+                        </ViewCell.ContextActions>
+
+                        <!-- Grid que organiza os dados do produto em colunas -->
+                        <Grid ColumnDefinitions="*, *, *, *, *, *">
+
+                            <!-- Dados do produto -->
+                            <Label Grid.Column="0" Text="{Binding Id}"/>
+                            <Label Grid.Column="1" Text="{Binding Descricao}"/>
+                            <Label Grid.Column="2" Text="{Binding Preco}"/>
+                            <Label Grid.Column="3" Text="{Binding Quantidade}"/>
+                            <Label Grid.Column="4" Text="{Binding Total}"/>
+
+                        </Grid>
+
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+        </ListView>
+
     </VerticalStackLayout>
-</ContentPage>

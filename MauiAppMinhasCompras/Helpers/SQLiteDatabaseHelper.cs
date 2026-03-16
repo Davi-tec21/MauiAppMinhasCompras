@@ -14,10 +14,10 @@ namespace MauiAppMinhasCompras.Helpers
     public SQLiteDatabaseHelper(string path)
         { 
     _conn = new SQLiteAsyncConnection(path);
-    //Construtor para conexão com o banco de dados,
-    //utiliza o caminho do arquivo
+            //Construtor para conexão com o banco de dados,
+            //utiliza o caminho do arquivo
 
-    _conn.CreateTableAsync<Produto>().Wait();//Cria a tabela Produto caso não exista
+            _conn.CreateTableAsync<Produto>().Wait(); //Cria a tabela Produto caso não exista
         }
 
 
@@ -63,7 +63,7 @@ namespace MauiAppMinhasCompras.Helpers
 
         public Task<List<Produto>> Search(string q) //método para fazer uma busca por produtos
     {
-    String sql = "SELECT * Produto WHERE descricao LIKE '%"+ q + "%' ";
+    String sql = "SELECT * FROM Produto WHERE descricao LIKE '%"+ q + "%' ";
             // Instrução SQL para buscar produtos onde a descrição
             // Tenha o texto informado na variável q (query)
 

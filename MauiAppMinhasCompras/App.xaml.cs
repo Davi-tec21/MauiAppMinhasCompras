@@ -29,7 +29,6 @@ Environment.GetFolderPath(
 Environment.SpecialFolder.LocalApplicationData),
  "banco_sqlite_compras.db3");
 _db = new SQLiteDatabaseHelper(path);
-_db = new SQLiteDatabaseHelper("...db3");
  }
 
  return _db;
