@@ -20,11 +20,11 @@
                TextChanged="txt_search_TextChanged"/>
 
         <!-- Lista que mostra os produtos cadastrados -->
-        <ListView x:Name="lst_produtos">
+        <ListView x:Name="lst_produtos" ItemSelected="lst_produtos_ItemSelected">
 
             <!-- Cabeçalho  -->
             <ListView.Header>
-                <Grid ColumnDefinitions="*, *, *, *, *, *">
+                <Grid ColumnDefinitions="*, *, *, *, *">
 
                     <!-- Títulos das colunas -->
                     <Label Grid.Column="0" Text="ID"/>
@@ -47,7 +47,7 @@
                         </ViewCell.ContextActions>
 
                         <!-- Grid que organiza os dados do produto em colunas -->
-                        <Grid ColumnDefinitions="*, *, *, *, *, *">
+                        <Grid ColumnDefinitions="*, *, *, *, *">
 
                             <!-- Dados do produto -->
                             <Label Grid.Column="0" Text="{Binding Id}"/>
@@ -65,3 +65,5 @@
         </ListView>
 
     </VerticalStackLayout>
+
+</ContentPage>

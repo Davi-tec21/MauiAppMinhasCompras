@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 namespace MauiAppMinhasCompras.Views;
 
+
 public partial class ListaProduto : ContentPage
 {
     // ObservableCollection para armazenar os produtos
@@ -18,16 +19,30 @@ public partial class ListaProduto : ContentPage
         lst_produtos.ItemsSource = lista;
     }
 
+
+
+
     // Método executado automaticamente quando a tela aparece
     protected async override void OnAppearing()
     {
-        // Busca todos os produtos armazenados no banco de dados
-        List<Produto> tmp = await App.Db.GetAll();
+        try
+        {
 
-        // Adiciona cada produto encontrado na ObservableCollection
-        // Isso faz com que a lista na tela seja atualizada automaticamente
-        tmp.ForEach(i => lista.Add(i));
+            // Busca todos os produtos armazenados no banco de dados
+            List<Produto> tmp = await App.Db.GetAll();
+
+            // Adiciona cada produto encontrado na ObservableCollection
+            // Isso faz com que a lista na tela seja atualizada automaticamente
+            tmp.ForEach(i => lista.Add(i));
+        }
+        catch (Exception ex)
+        {
+            // Caso ocorra algum erro,exibe uma menssagem 
+            await DisplayAlert("ERRO", ex.Message, "OK");
+        }
     }
+
+
 
     // Método executado quando o usuário clica no botão adicionar
     private void ToolbarItem_Clicked(object sender, EventArgs e)
@@ -44,21 +59,33 @@ public partial class ListaProduto : ContentPage
         }
     }
 
+
+
     // Executa sempre que o usuário digita  no SearchBar
     private async void txt_search_TextChanged(object sender, TextChangedEventArgs e)
     {
-        // Captura o texto que foi digitado
-        String q = e.NewTextValue;
+        try
+        {
+            // Captura o texto que foi digitado
+            String q = e.NewTextValue;
 
-        // Limpa a lista atual exibida na tela
-        lista.Clear();
+            // Limpa a lista atual exibida na tela
+            lista.Clear();
 
-        // Realiza a busca no banco de dados usando o texto digitado
-        List<Produto> tmp = await App.Db.Search(q);
+            // Realiza a busca no banco de dados usando o texto digitado
+            List<Produto> tmp = await App.Db.Search(q);
 
-        
-        tmp.ForEach(i => lista.Add(i));
+
+            tmp.ForEach(i => lista.Add(i));
+        }
+        catch (Exception ex)
+        {
+            // Caso ocorra algum erro,exibe uma menssagem 
+            await DisplayAlert("ERRO", ex.Message, "OK");
+        }
     }
+
+
 
     // Método executado quando o usuário clica no botão "Somar"
     private void ToolbarItem_Clicked_1(object sender, EventArgs e)
@@ -71,4 +98,56 @@ public partial class ListaProduto : ContentPage
 
         DisplayAlert("Total dos Produtos", msg, "OK");
     }
+
+  
+
+
+    private async void MenuItem_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            MenuItem selecinado = sender as MenuItem;
+
+            Produto p = selecinado.BindingContext as Produto;
+
+            bool confirm = await DisplayAlert(
+                "Tem Certeza?", $"Remover {p.Descricao}?", "Sim", "Não");
+
+            if (confirm)
+            {
+                await App.Db.Delete(p.Id);
+                lista.Remove(p);
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Ops", ex.Message, "OK");
+        }
+    }
+    private void lst_produtos_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+    {
+        try
+        {
+            Produto p = e.SelectedItem as Produto;
+
+            Navigation.PushAsync(new Views.EditarProduto
+            {
+                BindingContext = p,
+            });
+        }
+        catch (Exception ex)
+        {
+            DisplayAlert("Ops", ex.Message, "OK");
+        }
+    }
+
+
+
+
+
+
+
+
+
+
 }
