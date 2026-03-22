@@ -27,6 +27,7 @@ public partial class ListaProduto : ContentPage
     {
         try
         {
+            lista.Clear();// Limpa a Observable Collection
 
             // Busca todos os produtos armazenados no banco de dados
             List<Produto> tmp = await App.Db.GetAll();
@@ -124,6 +125,11 @@ public partial class ListaProduto : ContentPage
             await DisplayAlert("Ops", ex.Message, "OK");
         }
     }
+
+
+
+
+
     private void lst_produtos_ItemSelected(object sender, SelectedItemChangedEventArgs e)
     {
         try
