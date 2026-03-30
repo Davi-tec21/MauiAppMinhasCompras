@@ -30,5 +30,8 @@ namespace MauiAppMinhasCompras.Models //Onde a Classe está organizada
         public double Preco { get; set; } //Campo para a preço do produto.
         public double Total { get => Quantidade * Preco; } //Campo para o total produto.
 
+        public string Categoria { get; set; } //Novo Campo para a categoria do produto.
+                
     }
 }
+

@@ -1,4 +1,4 @@
-using MauiAppMinhasCompras.Models;
+Ôªøusing MauiAppMinhasCompras.Models;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
@@ -15,14 +15,14 @@ public partial class ListaProduto : ContentPage
     {
         InitializeComponent();
 
-        // Define que o ListView da tela ir· mostrar os dados da ObservableCollection
+        // Define que o ListView da tela ir√° mostrar os dados da ObservableCollection
         lst_produtos.ItemsSource = lista;
     }
 
 
 
 
-    // MÈtodo executado automaticamente quando a tela aparece
+    // M√©todo executado automaticamente quando a tela aparece
     protected async override void OnAppearing()
     {
         try
@@ -45,7 +45,7 @@ public partial class ListaProduto : ContentPage
 
 
 
-    // MÈtodo executado quando o usu·rio clica no bot„o adicionar
+    // M√©todo executado quando o usu√°rio clica no bot√£o adicionar
     private void ToolbarItem_Clicked(object sender, EventArgs e)
     {
         try
@@ -62,7 +62,7 @@ public partial class ListaProduto : ContentPage
 
 
 
-    // Executa sempre que o usu·rio digita  no SearchBar
+    // Executa sempre que o usu√°rio digita  no SearchBar
     private async void txt_search_TextChanged(object sender, TextChangedEventArgs e)
     {
         try
@@ -88,21 +88,38 @@ public partial class ListaProduto : ContentPage
 
 
 
-    // MÈtodo executado quando o usu·rio clica no bot„o "Somar"
+    // M√©todo executado quando o usu√°rio clica no bot√£o "Somar"
     private void ToolbarItem_Clicked_1(object sender, EventArgs e)
     {
-        // Soma o valor total de todos os produtos da lista
-        double soma = lista.Sum(i => i.Total);
+        try
+        {
+            // Agrupa os produtos por categoria
+            var relatorio = lista
+                .GroupBy(p => p.Categoria)
+                .Select(g => new
+                {
+                    Categoria = g.Key,
+                    Total = g.Sum(p => p.Total)
+                });
 
-        //  mensagem mostrando o total formatado como moeda
-        string msg = $"O Total È {soma:C}";
+            string msg = "";
 
-        DisplayAlert("Total dos Produtos", msg, "OK");
+            foreach (var item in relatorio)
+            {
+                msg += item.Categoria + ": R$ " + item.Total + "\n";
+            }
+
+            DisplayAlert("Relat√≥rio por Categoria", msg, "OK");
+        }
+        catch (Exception ex)
+        {
+            DisplayAlert("Erro", ex.Message, "OK");
+        }
     }
 
-  
 
 
+    // M√©todo executado quando o usu√°rio clica na op√ß√£o de remover
     private async void MenuItem_Clicked(object sender, EventArgs e)
     {
         try
@@ -112,7 +129,7 @@ public partial class ListaProduto : ContentPage
             Produto p = selecinado.BindingContext as Produto;
 
             bool confirm = await DisplayAlert(
-                "Tem Certeza?", $"Remover {p.Descricao}?", "Sim", "N„o");
+                "Tem Certeza?", $"Remover {p.Descricao}?", "Sim", "N√£o");
 
             if (confirm)
             {
@@ -129,12 +146,14 @@ public partial class ListaProduto : ContentPage
 
 
 
-
+    // M√©todo executado quando o usu√°rio seleciona um item da lista
     private void lst_produtos_ItemSelected(object sender, SelectedItemChangedEventArgs e)
     {
         try
         {
             Produto p = e.SelectedItem as Produto;
+
+            // // Abre a tela de edi√ß√£o de produto
 
             Navigation.PushAsync(new Views.EditarProduto
             {
@@ -146,14 +165,38 @@ public partial class ListaProduto : ContentPage
             DisplayAlert("Ops", ex.Message, "OK");
         }
     }
+    private async void pickerFiltro_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            string categoria = pickerFiltro.SelectedItem.ToString();
 
+            List<Produto> tmp = await App.Db.GetAll();
 
+            // Limpa a lista atual
+            lista.Clear();
 
-
-
+            if (categoria == "Todos")
+            {
+                tmp.ForEach(i => lista.Add(i));
+            }
+            else
+            {
+                tmp.Where(p => p.Categoria == categoria)
+                   .ToList()
+                   .ForEach(i => lista.Add(i));
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Erro", ex.Message, "OK");
+        }
+    }
 
 
 
 
 
 }
+
+

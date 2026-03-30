@@ -19,12 +19,28 @@
                Placeholder="Busca de Produtos"
                TextChanged="txt_search_TextChanged"/>
 
+
+        
+        <Label Text="Filtrar por categoria:"/>
+        <!-- Permite filtrar os produtos por categoria -->
+        <Picker x:Name="pickerFiltro" SelectedIndexChanged = "pickerFiltro_SelectedIndexChanged">
+            <Picker.Items>
+                <x:String>Todos</x:String>
+                <x:String>Alimentos</x:String>
+                <x:String>Higiene</x:String>
+                <x:String>Limpeza</x:String>
+            </Picker.Items>
+        </Picker>
+
+
+
+
         <!-- Lista que mostra os produtos cadastrados -->
         <ListView x:Name="lst_produtos" ItemSelected="lst_produtos_ItemSelected">
 
             <!-- Cabeçalho  -->
             <ListView.Header>
-                <Grid ColumnDefinitions="*, *, *, *, *">
+                <Grid ColumnDefinitions="*, *, *, *, *,*">
 
                     <!-- Títulos das colunas -->
                     <Label Grid.Column="0" Text="ID"/>
@@ -32,6 +48,9 @@
                     <Label Grid.Column="2" Text="Preço"/>
                     <Label Grid.Column="3" Text="Quantidade"/>
                     <Label Grid.Column="4" Text="Total"/>
+                    
+                    <Label Grid.Column="5" Text="Categoria"/>
+                    <!--  coluna para exibir a categoria do produto -->
 
                 </Grid>
             </ListView.Header>
@@ -47,7 +66,7 @@
                         </ViewCell.ContextActions>
 
                         <!-- Grid que organiza os dados do produto em colunas -->
-                        <Grid ColumnDefinitions="*, *, *, *, *">
+                        <Grid ColumnDefinitions="*, *, *, *, *, *">
 
                             <!-- Dados do produto -->
                             <Label Grid.Column="0" Text="{Binding Id}"/>
@@ -55,6 +74,7 @@
                             <Label Grid.Column="2" Text="{Binding Preco}"/>
                             <Label Grid.Column="3" Text="{Binding Quantidade}"/>
                             <Label Grid.Column="4" Text="{Binding Total}"/>
+                            <Label Grid.Column="5" Text="{Binding Categoria}"/>
 
                         </Grid>
 
